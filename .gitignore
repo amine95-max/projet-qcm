@@ -4,7 +4,7 @@
 
 #define MAX_PROPOSITIONS 4
 #define MAX_TEXTE 255
-#define MAX_QUESTIONS 50
+#define MAX_QUESTIONS 
 #define PASSWORD "CYTECH2026" // Mot de passe défini en constante
 
 // --- STRUCTURES ---

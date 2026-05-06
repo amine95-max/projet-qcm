@@ -1,0 +1,30 @@
+# projet-qcm
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_PROPOSITIONS 4
+#define MAX_TEXTE 255
+#define MAX_QUESTIONS 50
+#define PASSWORD "CYTECH2026" // Mot de passe défini en constante
+
+// --- STRUCTURES ---
+
+typedef struct {
+    char texteQuestion[MAX_TEXTE];         // L'énoncé de la question
+    char propositions[MAX_PROPOSITIONS][MAX_TEXTE]; // Les choix (A, B, C, D)
+    int reponsesCorrectes[MAX_PROPOSITIONS]; // Tableau de booléens (1 si vrai, 0 si faux)
+    int nbPropositions;                    // Nombre de choix proposés
+} Question;
+
+typedef struct {
+    int pointsNegatifs;    //
+    int reponsesMultiples; //
+} Parametres;
+
+typedef struct {
+    char titre[MAX_TEXTE];               // Nom du QCM (utilisé pour le fichier)
+    Question listeQuestions[MAX_QUESTIONS]; // Tableau de structures Question
+    int nbQuestions;                     // Nombre total de questions
+    Parametres config;                   // Paramètres choisis par l'enseignant[cite: 1]
+} QCM;

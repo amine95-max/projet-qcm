@@ -1,9 +1,10 @@
+#ifndef STRUCTURES_H
+#define STRUCTURES_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifndef STRUCTURES_H
-#define STRUCTURES_H
-#define TEACHER_PASSWORD "cytech2025"
+#include "structures.h"
+#define TEACHER_PASSWORD "cytech2026"
 #define MAX_TEXT 256
 #define MAX_CHOICES 10
 #define MAX_QUESTIONS 50
@@ -29,6 +30,10 @@ typedef struct {
 } QCM;
 
 #endif
+
+// -------------------------------
+// Fonction : authentification
+// -------------------------------
 int teacherLogin() {
     char input[50];
     printf("Enter teacher password: ");
@@ -131,14 +136,3 @@ void teacherMode() {
     saveQCM(qcm);
 }
 
-int main() {
-    int choice;
-
-    printf("1. Teacher mode\n2. Student mode\nChoice: ");
-    scanf("%d", &choice);
-
-    if (choice == 1)
-        teacherMode();
-
-    return 0;
-}

@@ -139,13 +139,25 @@ void creerQCM(QCM *qcm) {
 
             do {
                 printf("  Correct ? (1=oui, 0=non) : ");
-                if (scanf("%d", &qcm->questions[i].choix[j].estCorrect) != 1) {
+                
+                if (scanf("%d", &qcm->questions[i].choix[j].estCorrect) != 1 || (qcm->questions[i].choix[j].estCorrect != 0 && qcm->questions[i].choix[j].estCorrect != 1)) {
+                    printf("Erreur : Entrez 0 ou 1.\n");
                     while (getchar() != '\n');
-                } else break;
+                } 
+                // LA NOUVELLE SÉCURITÉ EST ICI :
+                else if (qcm->reponsesMultiples == 0 && qcm->questions[i].choix[j].estCorrect == 1 && auMoinsUneBonne >= 1) {
+                    printf("Erreur : Ce QCM n'autorise qu'UNE SEULE bonne reponse. Tu en as deja defini une !\n");
+                } 
+                else {
+                    break; // Tout est bon, on sort de la boucle
+                }
             } while (1);
-            if (qcm->questions[i].choix[j].estCorrect) auMoinsUneBonne++;
+            
+            if (qcm->questions[i].choix[j].estCorrect) {
+                auMoinsUneBonne++;
+            }
         }
-        if (auMoinsUneBonne == 0) printf("! ATTENTION : Aucune bonne réponse définie.\n");
+        if (auMoinsUneBonne == 0) printf("! ATTENTION : Aucune bonne reponse definie pour cette question.\n");
     }
 }
 

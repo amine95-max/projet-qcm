@@ -1,38 +1,43 @@
-#ifndef STRUCTURES_H
-#define STRUCTURES_H
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
-#define MOT_DE_PASSE_DEFAUT "cytech2026"
-#define MAX_TEXTE 256
-#define MAX_CHOIX 10
-#define MAX_QUESTIONS 50
+#include "structures.h"
 
 // Variable globale pour gérer le mot de passe modifiable
 char motDePasseActuel[50] = MOT_DE_PASSE_DEFAUT;
 
-typedef struct {
-    char texte[MAX_TEXTE];
-    int estCorrect; 
-} Choix;
+/* -------------------------------------------------------------------------
+   Fonctions utilitaires (sans utiliser string.h)
+   ------------------------------------------------------------------------- */
+int comparerChaines(const char *chaine1, const char *chaine2) {
+    int i = 0;
+    while (chaine1[i] != '\0' && chaine2[i] != '\0') {
+        if (chaine1[i] != chaine2[i]) {
+            return chaine1[i] - chaine2[i];
+        }
+        i++;
+    }
+    return chaine1[i] - chaine2[i];
+}
 
-typedef struct {
-    char texteQuestion[MAX_TEXTE];
-    int nbChoix;
-    Choix choix[MAX_CHOIX];
-} Question;
+void copierChaine(char *dest, const char *src) {
+    int i = 0;
+    while (src[i] != '\0') {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
 
-typedef struct {
-    char nom[MAX_TEXTE];
-    int autoriserNegatif;     
-    int reponsesMultiples;   
-    int modeSequentiel;      
-    int nbQuestions;
-    Question questions[MAX_QUESTIONS];
-} QCM;
-
-#endif
+void nettoyerSaisieEnseignant(char *chaine) {
+    int i = 0;
+    while (chaine[i] != '\0') {
+        if (chaine[i] == '\n') {
+            chaine[i] = '\0';
+            break;
+        }
+        i++;
+    }
+}
 
 // ---------------------------------------------
 // Fonction : Modifier le mot de passe
@@ -45,8 +50,8 @@ void modifierMotDePasse() {
     printf("Confirmez le nouveau mot de passe : ");
     scanf("%49s", confirmation);
 
-    if (strcmp(nouveau, confirmation) == 0) {
-        strcpy(motDePasseActuel, nouveau);
+    if (comparerChaines(nouveau, confirmation) == 0) {
+        copierChaine(motDePasseActuel, nouveau);
         printf("Mot de passe mis à jour avec succès.\n");
     } else {
         printf("Erreur : les mots de passe ne correspondent pas.\n");
@@ -62,7 +67,7 @@ int connexionEnseignant() {
     printf("Entrez le mot de passe enseignant : ");
     scanf("%49s", saisie);
 
-    if (strcmp(saisie, motDePasseActuel) == 0) {
+    if (comparerChaines(saisie, motDePasseActuel) == 0) {
         printf("Accès autorisé.\n");
         return 1;
     }
@@ -115,7 +120,7 @@ void creerQCM(QCM *qcm) {
         printf("Texte de la question : ");
         while (getchar() != '\n'); 
         fgets(qcm->questions[i].texteQuestion, MAX_TEXTE, stdin);
-        qcm->questions[i].texteQuestion[strcspn(qcm->questions[i].texteQuestion, "\n")] = 0;
+        nettoyerSaisieEnseignant(qcm->questions[i].texteQuestion);
 
         do {
             printf("Nombre de choix (Max %d) : ", MAX_CHOIX);
@@ -130,7 +135,7 @@ void creerQCM(QCM *qcm) {
             printf("  Texte du choix %d : ", j + 1);
             while (getchar() != '\n');
             fgets(qcm->questions[i].choix[j].texte, MAX_TEXTE, stdin);
-            qcm->questions[i].choix[j].texte[strcspn(qcm->questions[i].choix[j].texte, "\n")] = 0;
+            nettoyerSaisieEnseignant(qcm->questions[i].choix[j].texte);
 
             do {
                 printf("  Correct ? (1=oui, 0=non) : ");

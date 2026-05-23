@@ -15,7 +15,7 @@ Le programme propose deux espaces distincts afin de répondre aux besoins des pr
     * Activation ou désactivation des points négatifs.
     * Possibilité d'autoriser plusieurs bonnes réponses pour une question.
     * Mode séquentiel (imposer de répondre ou autoriser à passer la question).
-* **Sauvegarde :** Enregistrement du QCM dans un fichier dédié (format `.qcm`) pour une réutilisation future[cite: 51, 57].
+* **Sauvegarde :** Enregistrement du QCM dans un fichier dédié (format `.qcm`) pour une réutilisation future.
 
 ### Mode Étudiant
 * **Menu interactif :** Détection et affichage dynamique de la liste des QCM disponibles dans le répertoire.
